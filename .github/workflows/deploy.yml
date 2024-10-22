@@ -3,32 +3,18 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main  # Ejecuta el workflow cuando haya cambios en la rama principal
+      - main  # Ejecuta el workflow cuando haya un push en la rama main
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout the repository
+        uses: actions/checkout@v3
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '14'  # Versión de Node.js
-
-    - name: Install dependencies
-      run: |
-        npm install
-        npm audit --audit-level=high  # Verificar dependencias vulnerables
-
-    - name: Build project (opcional si tienes un proceso de construcción)
-      run: |
-        npm run build
-
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./  # Cambia esto si tu archivo `index.html` está en otra carpeta
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./  # Directorio raíz del proyecto
